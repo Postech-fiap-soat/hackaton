@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  mysql:
+    image: mysql:5.6
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: electronic_point
+      MYSQL_USER: soatuser
+      MYSQL_PASSWORD: soatpassword
+    volumes:
+      - .docker-data/migrations:/docker-entrypoint-initdb.d
