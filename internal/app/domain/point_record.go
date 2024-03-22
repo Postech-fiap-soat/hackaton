@@ -7,12 +7,14 @@ import (
 
 type PointRecordRepository interface {
 	RegisterPoint(pointRecord *PointRecord) (*PointRecord, error)
-	GetPointsRecordedToday(userID int, dateToday time.Time) ([]*PointRecord, error)
+	GetPointsRecordedToday(userID int, dateNow, dateToday time.Time) ([]*PointRecord, error)
+	GetPointsRecordedInMonth(userID int, initDate, finalDate time.Time) ([]*PointRecord, error)
 }
 
 type PointRecordUseCase interface {
 	RecordPointEvent(registerPointDTO RegisterPointDTO) (*PointRecord, error)
 	GetRegistersDay(userID int) (*DailyReport, error)
+	GetMonthlyReport(userID int) (*MonthlyReport, error)
 }
 
 type RegisterPointDTO struct {

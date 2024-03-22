@@ -39,3 +39,16 @@ func (h *HttpHandler) GetRegistersDay(w http.ResponseWriter, req bunrouter.Reque
 	w.Write(resultJson)
 	return nil
 }
+
+func (h *HttpHandler) GetMonthlyReport(w http.ResponseWriter, req bunrouter.Request) error {
+	result, err := h.registerPointUseCase.GetMonthlyReport(1)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(err.Error()))
+		log.Println("ERRO: ", err)
+	}
+	resultJson, err := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(resultJson)
+	return nil
+}

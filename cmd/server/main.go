@@ -31,6 +31,7 @@ func LoadAPP(cfg *config.Config) {
 	router.WithGroup("/api/v1", func(apiV1Routes *bunrouter.Group) {
 		apiV1Routes.POST("/register-point", httpHandler.RegisterPoint)
 		apiV1Routes.GET("/daily-report", httpHandler.GetRegistersDay)
+		apiV1Routes.GET("/monthly-report", httpHandler.GetMonthlyReport)
 	})
 	log.Fatalf(http.ListenAndServe(":8001", router).Error())
 }

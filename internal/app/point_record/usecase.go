@@ -19,7 +19,7 @@ func (r *PointRecordUseCase) RecordPointEvent(registerPointDTO domain.RegisterPo
 	if err != nil {
 		return nil, err
 	}
-	pointsRecordedToday, err := r.recordPointRepository.GetPointsRecordedToday(registerPointDTO.UserID, dateToday)
+	pointsRecordedToday, err := r.recordPointRepository.GetPointsRecordedToday(registerPointDTO.UserID, dateTimeNow, dateToday)
 	if err != nil {
 		return nil, err
 	}
@@ -40,10 +40,22 @@ func (r *PointRecordUseCase) GetRegistersDay(userID int) (*domain.DailyReport, e
 	if err != nil {
 		return nil, err
 	}
-	pointsRecordedToday, err := r.recordPointRepository.GetPointsRecordedToday(userID, dateToday)
+	pointsRecordedToday, err := r.recordPointRepository.GetPointsRecordedToday(userID, dateTimeNow, dateToday)
 	if err != nil {
 		return nil, err
 	}
-	dailyReport := domain.NewDailyReport(pointsRecordedToday)
+	dailyReport := domain.NewDailyReport(pointsRecordedToday, dateTimeNow)
 	return dailyReport, nil
+}
+
+func (r *PointRecordUseCase) GetMonthlyReport(userID int) (*domain.MonthlyReport, error) {
+	lastMonth := time.Now().AddDate(0, -1, 0)
+	initLastMonth := time.Date(lastMonth.Year(), lastMonth.Month(), 1, 0, 0, 0, 0, lastMonth.Location())
+	finalLastMonth := initLastMonth.AddDate(0, 1, -1)
+	pointsRecordedToday, err := r.recordPointRepository.GetPointsRecordedInMonth(userID, initLastMonth, finalLastMonth)
+	if err != nil {
+		return nil, err
+	}
+	monthlyReport := domain.NewMonthlyReport(pointsRecordedToday, lastMonth.Month().String())
+	return monthlyReport, nil
 }

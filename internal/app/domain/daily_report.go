@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"strings"
 	"time"
 )
 
@@ -22,21 +23,27 @@ var typeEvents = map[int]string{
 	4: "Saída",
 }
 
-func NewDailyReport(pointsRecordedToday []*PointRecord) *DailyReport {
+func NewDailyReport(pointsRecordedToday []*PointRecord, dateTimeReport time.Time) *DailyReport {
 	var report DailyReport
-	report.Date = time.Now().Format("02/01/2006")
+	report.Date = dateTimeReport.Format("02/01/2006")
 	var lastTimeEvent *time.Time
+	var totalHourWorked time.Duration
 	for _, v := range pointsRecordedToday {
 		var item DailyReportItem
 		item.TimeEvent = v.CreatedAt.Format("15:04:05")
 		item.Type = typeEvents[v.Type]
-		if lastTimeEvent != nil {
+		report.DailyReportRegisters = append(report.DailyReportRegisters, item)
+		if v.Type == 1 || v.Type == 3 {
 			lastTimeEvent = v.CreatedAt
 			continue
 		}
-		report.DailyReportRegisters = append(report.DailyReportRegisters, item)
-		//difference := v.CreatedAt.Sub(*lastTimeEvent)
-		//fmt.Println(difference)
+		totalHourWorked += v.CreatedAt.Sub(*lastTimeEvent)
+		lastTimeEvent = v.CreatedAt
 	}
+	if len(pointsRecordedToday) == 1 || len(pointsRecordedToday) == 3 {
+		totalHourWorked += time.Now().Sub(*pointsRecordedToday[len(pointsRecordedToday)-1].CreatedAt)
+	}
+	totalArr := strings.Split(totalHourWorked.String(), ".")
+	report.TotalHourWorked = totalArr[0]
 	return &report
 }
