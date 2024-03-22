@@ -9,16 +9,29 @@ import (
 )
 
 type HttpHandler struct {
-	registerPointUseCase domain.RegisterPointUseCase
+	registerPointUseCase domain.PointRecordUseCase
 }
 
-func NewHttpHandler(registerPointUseCase domain.RegisterPointUseCase) *HttpHandler {
+func NewHttpHandler(registerPointUseCase domain.PointRecordUseCase) *HttpHandler {
 	return &HttpHandler{registerPointUseCase: registerPointUseCase}
 }
 
 func (h *HttpHandler) RegisterPoint(w http.ResponseWriter, req bunrouter.Request) error {
-	result, err := h.registerPointUseCase.Handle(domain.RegisterPointDTO{})
+	result, err := h.registerPointUseCase.RecordPointEvent(domain.RegisterPointDTO{UserID: 1})
 	if err != nil {
+		log.Println("ERRO: ", err)
+	}
+	resultJson, err := json.Marshal(result)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(resultJson)
+	return nil
+}
+
+func (h *HttpHandler) GetRegistersDay(w http.ResponseWriter, req bunrouter.Request) error {
+	result, err := h.registerPointUseCase.GetRegistersDay(1)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(err.Error()))
 		log.Println("ERRO: ", err)
 	}
 	resultJson, err := json.Marshal(result)
