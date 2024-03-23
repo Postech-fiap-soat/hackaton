@@ -6,6 +6,10 @@ type MonthlyReport struct {
 	DailyReports    []DailyReport `json:"daily_reports"`
 }
 
+type ReportSuccess struct {
+	Message string `json:"message"`
+}
+
 func NewMonthlyReport(pointsRecordedToday []*PointRecord, month string) *MonthlyReport {
 	daily := map[int][]*PointRecord{}
 	for _, v := range pointsRecordedToday {

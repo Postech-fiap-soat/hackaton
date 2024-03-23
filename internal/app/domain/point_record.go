@@ -14,7 +14,7 @@ type PointRecordRepository interface {
 type PointRecordUseCase interface {
 	RecordPointEvent(registerPointDTO RegisterPointDTO) (*PointRecord, error)
 	GetRegistersDay(userID int) (*DailyReport, error)
-	GetMonthlyReport(userID int) (*MonthlyReport, error)
+	GetMonthlyReport(userID int) (*User, error)
 }
 
 type PointRecordSender interface {

@@ -57,7 +57,7 @@ func (r *PointRecordUseCase) GetRegistersDay(userID int) (*domain.DailyReport, e
 	return dailyReport, nil
 }
 
-func (r *PointRecordUseCase) GetMonthlyReport(userID int) (*domain.MonthlyReport, error) {
+func (r *PointRecordUseCase) GetMonthlyReport(userID int) (*domain.User, error) {
 	lastMonth := time.Now().AddDate(0, -1, 0)
 	initLastMonth := time.Date(lastMonth.Year(), lastMonth.Month(), 1, 0, 0, 0, 0, lastMonth.Location())
 	finalLastMonth := initLastMonth.AddDate(0, 1, -1)
@@ -74,5 +74,5 @@ func (r *PointRecordUseCase) GetMonthlyReport(userID int) (*domain.MonthlyReport
 	if err != nil {
 		return nil, err
 	}
-	return monthlyReport, nil
+	return user, nil
 }
