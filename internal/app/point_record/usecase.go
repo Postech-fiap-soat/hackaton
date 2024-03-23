@@ -8,10 +8,18 @@ import (
 type PointRecordUseCase struct {
 	recordPointRepository domain.PointRecordRepository
 	pointRecordSender     domain.PointRecordSender
+	userRepository        domain.UserRepository
 }
 
-func NewRegisterPointUseCase(recordPointRepository domain.PointRecordRepository, pointRecordSender domain.PointRecordSender) *PointRecordUseCase {
-	return &PointRecordUseCase{recordPointRepository: recordPointRepository, pointRecordSender: pointRecordSender}
+func NewRegisterPointUseCase(
+	recordPointRepository domain.PointRecordRepository,
+	pointRecordSender domain.PointRecordSender,
+	userRepository domain.UserRepository) *PointRecordUseCase {
+	return &PointRecordUseCase{
+		recordPointRepository: recordPointRepository,
+		pointRecordSender:     pointRecordSender,
+		userRepository:        userRepository,
+	}
 }
 
 func (r *PointRecordUseCase) RecordPointEvent(registerPointDTO domain.RegisterPointDTO) (*domain.PointRecord, error) {
@@ -58,7 +66,11 @@ func (r *PointRecordUseCase) GetMonthlyReport(userID int) (*domain.MonthlyReport
 		return nil, err
 	}
 	monthlyReport := domain.NewMonthlyReport(pointsRecordedToday, lastMonth.Month().String())
-	err = r.pointRecordSender.SendMonthlyReport(monthlyReport)
+	user, err := r.userRepository.GetUserById(userID)
+	if err != nil {
+		return nil, err
+	}
+	err = r.pointRecordSender.SendMonthlyReport(monthlyReport, user)
 	if err != nil {
 		return nil, err
 	}

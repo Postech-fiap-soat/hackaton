@@ -4,6 +4,7 @@ import (
 	"github.com/uptrace/bunrouter"
 	"github.com/uptrace/bunrouter/extra/reqlog"
 	"hackaton/internal/app/point_record"
+	"hackaton/internal/app/user"
 	"hackaton/internal/config"
 	"hackaton/internal/infra"
 	"log"
@@ -24,9 +25,10 @@ func LoadAPP(cfg *config.Config) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	repository := point_record.NewPointRecordRepository(db)
+	pointRecordRepository := point_record.NewPointRecordRepository(db)
+	userRepository := user.NewUserRepository(db)
 	sender := point_record.NewPointRecordSender(cfg)
-	registerPoint := point_record.NewRegisterPointUseCase(repository, sender)
+	registerPoint := point_record.NewRegisterPointUseCase(pointRecordRepository, sender, userRepository)
 	httpHandler := point_record.NewHttpHandler(registerPoint)
 	router := bunrouter.New(bunrouter.Use(reqlog.NewMiddleware()))
 	router.WithGroup("/api/v1", func(apiV1Routes *bunrouter.Group) {
