@@ -17,7 +17,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: mshackaton-configmap
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mshackaton-deploy
