@@ -34,7 +34,7 @@ func NewDailyReport(pointsRecordedToday []*PointRecord, dateTimeReport time.Time
 		item.TimeEvent = v.CreatedAt.Format("15:04:05")
 		item.Type = typeEvents[v.Type]
 		report.DailyReportRegisters = append(report.DailyReportRegisters, item)
-		if v.Type == 1 || v.Type == 3 {
+		if v.Type == 3 || v.Type == 1 {
 			lastTimeEvent = v.CreatedAt
 			continue
 		}
