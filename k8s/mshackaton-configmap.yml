@@ -12,6 +12,7 @@ data:
   SMTP_PORT: '465'
   SMTP_USER: mateus.sousa157@gmail.com
   SMTP_PASSWORD: 'qmzrioguzwnsptoz'
+  JWT_SECRET_KEY: mysecret
   ENVIRONMENT: PROD
 
 

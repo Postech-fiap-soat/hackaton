@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/uptrace/bunrouter"
 	"github.com/uptrace/bunrouter/extra/reqlog"
+	"hackaton/internal/app/authentication"
 	"hackaton/internal/app/point_record"
 	"hackaton/internal/app/user"
 	"hackaton/internal/config"
@@ -29,7 +30,8 @@ func LoadAPP(cfg *config.Config) {
 	userRepository := user.NewUserRepository(db)
 	sender := point_record.NewPointRecordSender(cfg)
 	registerPoint := point_record.NewRegisterPointUseCase(pointRecordRepository, sender, userRepository)
-	pointRecordHandler := point_record.NewHttpHandler(registerPoint)
+	auth := authentication.NewAuthentication(cfg.JWTSecretKey)
+	pointRecordHandler := point_record.NewHttpHandler(registerPoint, auth)
 	userUsecase := user.NewUserUseCase(userRepository, cfg)
 	userHandler := user.NewHttpHandler(userUsecase)
 	router := bunrouter.New(bunrouter.Use(reqlog.NewMiddleware()))

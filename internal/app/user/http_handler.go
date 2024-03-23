@@ -33,6 +33,7 @@ func (h *HttpHandler) Login(w http.ResponseWriter, req bunrouter.Request) error 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(jwtJson)
 	return err
 }

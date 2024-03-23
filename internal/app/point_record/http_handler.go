@@ -3,6 +3,7 @@ package point_record
 import (
 	"encoding/json"
 	"github.com/uptrace/bunrouter"
+	"hackaton/internal/app/authentication"
 	"hackaton/internal/app/domain"
 	"log"
 	"net/http"
@@ -10,15 +11,17 @@ import (
 
 type HttpHandler struct {
 	registerPointUseCase domain.PointRecordUseCase
+	authentication       *authentication.Authentication
 }
 
-func NewHttpHandler(registerPointUseCase domain.PointRecordUseCase) *HttpHandler {
-	return &HttpHandler{registerPointUseCase: registerPointUseCase}
+func NewHttpHandler(registerPointUseCase domain.PointRecordUseCase, authentication *authentication.Authentication) *HttpHandler {
+	return &HttpHandler{registerPointUseCase: registerPointUseCase, authentication: authentication}
 }
 
 func (h *HttpHandler) RegisterPoint(w http.ResponseWriter, req bunrouter.Request) error {
 	log.Println("request in register point")
-	result, err := h.registerPointUseCase.RecordPointEvent(domain.RegisterPointDTO{UserID: 1})
+	userId, err := h.authentication.ExtractUserIDFromToken(req.Header.Get("Authorization"))
+	result, err := h.registerPointUseCase.RecordPointEvent(domain.RegisterPointDTO{UserID: userId})
 	if err != nil {
 		log.Println("ERRO: ", err)
 	}
@@ -31,7 +34,12 @@ func (h *HttpHandler) RegisterPoint(w http.ResponseWriter, req bunrouter.Request
 
 func (h *HttpHandler) GetRegistersDay(w http.ResponseWriter, req bunrouter.Request) error {
 	log.Println("request get daily report")
-	result, err := h.registerPointUseCase.GetRegistersDay(1)
+	userId, err := h.authentication.ExtractUserIDFromToken(req.Header.Get("Authorization"))
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return nil
+	}
+	result, err := h.registerPointUseCase.GetRegistersDay(userId)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(err.Error()))
@@ -46,7 +54,8 @@ func (h *HttpHandler) GetRegistersDay(w http.ResponseWriter, req bunrouter.Reque
 
 func (h *HttpHandler) GetMonthlyReport(w http.ResponseWriter, req bunrouter.Request) error {
 	log.Println("request get monthly report")
-	result, err := h.registerPointUseCase.GetMonthlyReport(1)
+	userId, err := h.authentication.ExtractUserIDFromToken(req.Header.Get("Authorization"))
+	result, err := h.registerPointUseCase.GetMonthlyReport(userId)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(err.Error()))
