@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: mshackaton
-          image: mateuspanda/mshackaton:5
+          image: mateuspanda/mshackaton:latest
           ports:
             - containerPort: 8001
           envFrom:
