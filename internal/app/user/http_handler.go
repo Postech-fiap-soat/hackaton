@@ -5,6 +5,7 @@ import (
 	"github.com/uptrace/bunrouter"
 	"hackaton/internal/app/domain"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -17,6 +18,7 @@ func NewHttpHandler(userUseCase domain.UserUseCase) *HttpHandler {
 }
 
 func (h *HttpHandler) Login(w http.ResponseWriter, req bunrouter.Request) error {
+	log.Println("request login")
 	params, _ := io.ReadAll(req.Body)
 	var loginDto domain.LoginDTO
 	err := json.Unmarshal(params, &loginDto)
@@ -30,7 +32,7 @@ func (h *HttpHandler) Login(w http.ResponseWriter, req bunrouter.Request) error 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err = w.Write([]byte(`{"error": "bad unauthorized"}`))
+		_, err = w.Write([]byte(`{"error": "internal server error"}`))
 		return err
 	}
 	err = bunrouter.JSON(w, jwt)
