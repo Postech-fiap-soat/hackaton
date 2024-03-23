@@ -45,6 +45,7 @@ func (p *PointRecordSender) SendMonthlyReport(monthlyReport *domain.MonthlyRepor
 	msg.SetBody("text/html", result)
 	dialer := gomail.NewDialer(p.cfg.SMTPHost, port, p.cfg.SMTPUser, p.cfg.SMTPPassword)
 	if err := dialer.DialAndSend(msg); err != nil {
+		log.Println("Erro ao tentar se comunicar com smtp:", err)
 		return err
 	}
 	return nil

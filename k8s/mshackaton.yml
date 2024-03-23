@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: mshackaton
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8001
   selector:
