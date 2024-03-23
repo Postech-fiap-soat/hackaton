@@ -26,11 +26,10 @@ type RegisterPointDTO struct {
 }
 
 type PointRecord struct {
-	ID        int
-	User      User
-	CreatedAt *time.Time
-	Type      int
-	UsersId   int
+	ID        int        `json:"id"`
+	CreatedAt *time.Time `json:"created_at"`
+	Type      int        `json:"type"`
+	UsersId   int        `json:"users_id"`
 }
 
 const EnterPoint = 1

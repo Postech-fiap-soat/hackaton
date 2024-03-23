@@ -26,7 +26,7 @@ type LoginDTO struct {
 	Password     string `json:"password"`
 }
 type JWT struct {
-	Token string
+	Token string `json:"token"`
 }
 
 func NewJWT(user *User, secretKey string) (*JWT, error) {

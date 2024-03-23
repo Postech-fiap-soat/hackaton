@@ -6,14 +6,14 @@ import (
 )
 
 type DailyReport struct {
-	Date                 string
-	TotalHourWorked      string
-	DailyReportRegisters []DailyReportItem
+	Date                 string            `json:"date"`
+	TotalHourWorked      string            `json:"total_hour_worked"`
+	DailyReportRegisters []DailyReportItem `json:"recorded_points"`
 }
 
 type DailyReportItem struct {
-	TimeEvent string
-	Type      string
+	TimeEvent string `json:"time_event"`
+	Type      string `json:"type"`
 }
 
 var typeEvents = map[int]string{

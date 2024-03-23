@@ -1,9 +1,9 @@
 package domain
 
 type MonthlyReport struct {
-	Month           string
-	TotalHourWorked string
-	DailyReports    []DailyReport
+	Month           string        `json:"month"`
+	TotalHourWorked string        `json:"total_hour_worked"`
+	DailyReports    []DailyReport `json:"daily_reports"`
 }
 
 func NewMonthlyReport(pointsRecordedToday []*PointRecord, month string) *MonthlyReport {
