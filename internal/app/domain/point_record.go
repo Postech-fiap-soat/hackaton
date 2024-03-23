@@ -17,6 +17,10 @@ type PointRecordUseCase interface {
 	GetMonthlyReport(userID int) (*MonthlyReport, error)
 }
 
+type PointRecordSender interface {
+	SendMonthlyReport(*MonthlyReport) error
+}
+
 type RegisterPointDTO struct {
 	UserID int
 }

@@ -25,7 +25,8 @@ func LoadAPP(cfg *config.Config) {
 		log.Fatal(err)
 	}
 	repository := point_record.NewPointRecordRepository(db)
-	registerPoint := point_record.NewRegisterPointUseCase(repository)
+	sender := point_record.NewPointRecordSender(cfg)
+	registerPoint := point_record.NewRegisterPointUseCase(repository, sender)
 	httpHandler := point_record.NewHttpHandler(registerPoint)
 	router := bunrouter.New(bunrouter.Use(reqlog.NewMiddleware()))
 	router.WithGroup("/api/v1", func(apiV1Routes *bunrouter.Group) {

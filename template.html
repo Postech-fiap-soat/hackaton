@@ -1,0 +1,49 @@
+<h1>Relatório Mensal - {{ .Month }}</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Total de Horas Trabalhadas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ .TotalHourWorked }}</td>
+    </tr>
+    </tbody>
+</table>
+<h2>Relatórios Diários</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Horas Trabalhadas</th>
+        <th>Registros</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{ range .DailyReports }}
+    <tr>
+        <td>{{ .Date }}</td>
+        <td>{{ .TotalHourWorked }}</td>
+        <td>
+            <table>
+                <thead>
+                <tr>
+                    <th>Horário</th>
+                    <th>Tipo</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{ range .DailyReportRegisters }}
+                <tr>
+                    <td>{{ .TimeEvent }}</td>
+                    <td>{{ .Type }}</td>
+                </tr>
+                {{ end }}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    {{ end }}
+    </tbody>
+</table>
