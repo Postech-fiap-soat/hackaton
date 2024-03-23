@@ -15,6 +15,7 @@ type Config struct {
 	SMTPPort     string `mapstructure:"SMTP_PORT"`
 	SMTPUser     string `mapstructure:"SMTP_USER"`
 	SMTPPassword string `mapstructure:"SMTP_PASSWORD"`
+	JWTSecretKey string `mapstructure:"JWT_SECRET_KEY"`
 }
 
 func LoadConfig(path string) (*Config, error) {

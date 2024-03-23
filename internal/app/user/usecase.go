@@ -3,14 +3,16 @@ package user
 import (
 	"golang.org/x/crypto/bcrypt"
 	"hackaton/internal/app/domain"
+	"hackaton/internal/config"
 )
 
 type UserUseCase struct {
 	userRepository domain.UserRepository
+	cfg            *config.Config
 }
 
-func NewUserUseCase(userRepository domain.UserRepository) *UserUseCase {
-	return &UserUseCase{userRepository: userRepository}
+func NewUserUseCase(userRepository domain.UserRepository, cfg *config.Config) *UserUseCase {
+	return &UserUseCase{userRepository: userRepository, cfg: cfg}
 }
 
 func (u *UserUseCase) Login(loginDTO domain.LoginDTO) (*domain.JWT, error) {
@@ -22,6 +24,9 @@ func (u *UserUseCase) Login(loginDTO domain.LoginDTO) (*domain.JWT, error) {
 	if err != nil {
 		return nil, err
 	}
-	jwt := domain.NewJWT(user)
+	jwt, err := domain.NewJWT(user, u.cfg.JWTSecretKey)
+	if err != nil {
+		return nil, err
+	}
 	return jwt, nil
 }

@@ -30,7 +30,7 @@ func LoadAPP(cfg *config.Config) {
 	sender := point_record.NewPointRecordSender(cfg)
 	registerPoint := point_record.NewRegisterPointUseCase(pointRecordRepository, sender, userRepository)
 	pointRecordHandler := point_record.NewHttpHandler(registerPoint)
-	userUsecase := user.NewUserUseCase(userRepository)
+	userUsecase := user.NewUserUseCase(userRepository, cfg)
 	userHandler := user.NewHttpHandler(userUsecase)
 	router := bunrouter.New(bunrouter.Use(reqlog.NewMiddleware()))
 	router.WithGroup("/api/v1", func(apiV1Routes *bunrouter.Group) {

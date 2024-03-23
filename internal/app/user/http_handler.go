@@ -5,6 +5,7 @@ import (
 	"github.com/uptrace/bunrouter"
 	"hackaton/internal/app/domain"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -25,6 +26,7 @@ func (h *HttpHandler) Login(w http.ResponseWriter, req bunrouter.Request) error 
 	}
 	jwt, err := h.userUseCase.Login(loginDto)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
 	}
 	jwtJson, err := json.Marshal(jwt)

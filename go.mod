@@ -3,6 +3,7 @@ module hackaton
 go 1.21.3
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.8.0
 	github.com/spf13/viper v1.18.2
 	github.com/uptrace/bunrouter v1.0.21
