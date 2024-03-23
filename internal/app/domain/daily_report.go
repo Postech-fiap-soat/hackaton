@@ -6,9 +6,10 @@ import (
 )
 
 type DailyReport struct {
-	Date                 string            `json:"date"`
-	TotalHourWorked      string            `json:"total_hour_worked"`
-	DailyReportRegisters []DailyReportItem `json:"recorded_points"`
+	Date                    string            `json:"date"`
+	TotalHourWorked         string            `json:"total_hour_worked"`
+	TotalHourWorkedDuration time.Duration     `json:"-"`
+	DailyReportRegisters    []DailyReportItem `json:"recorded_points"`
 }
 
 type DailyReportItem struct {
@@ -43,6 +44,7 @@ func NewDailyReport(pointsRecordedToday []*PointRecord, dateTimeReport time.Time
 	if len(pointsRecordedToday) == 1 || len(pointsRecordedToday) == 3 {
 		totalHourWorked += time.Now().Sub(*pointsRecordedToday[len(pointsRecordedToday)-1].CreatedAt)
 	}
+	report.TotalHourWorkedDuration = totalHourWorked
 	totalArr := strings.Split(totalHourWorked.String(), ".")
 	report.TotalHourWorked = totalArr[0]
 	return &report
