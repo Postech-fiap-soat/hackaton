@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: soatdb
+  name: soatdb-h
 spec:
-  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 3306
   selector:
-    app: soatdb-deploy
+    app: soatdb-statefulset
