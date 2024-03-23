@@ -10,7 +10,7 @@ data:
   DB_NAME: electronic_point
   SMTP_HOST: smtp.gmail.com
   SMTP_PORT: '465'
-  SMTP_USER: mateus.sousa157@gmail.com
-  SMTP_PASSWORD: 'qmzrioguzwnsptoz'
+  SMTP_USER: mateus.contato.1996@gmail.com
+  SMTP_PASSWORD: 'pgcqgxwtpqovwqph'
   JWT_SECRET_KEY: mysecret
   ENVIRONMENT: PROD

@@ -18,7 +18,7 @@ func NewHttpHandler(userUseCase domain.UserUseCase) *HttpHandler {
 }
 
 func (h *HttpHandler) Login(w http.ResponseWriter, req bunrouter.Request) error {
-	log.Println("request login")
+	log.Println("request login endpoint")
 	params, _ := io.ReadAll(req.Body)
 	var loginDto domain.LoginDTO
 	err := json.Unmarshal(params, &loginDto)
