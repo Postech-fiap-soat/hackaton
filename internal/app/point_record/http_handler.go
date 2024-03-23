@@ -21,6 +21,10 @@ func NewHttpHandler(registerPointUseCase domain.PointRecordUseCase, authenticati
 func (h *HttpHandler) RegisterPoint(w http.ResponseWriter, req bunrouter.Request) error {
 	log.Println("request in register point")
 	userId, err := h.authentication.ExtractUserIDFromToken(req.Header.Get("Authorization"))
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return nil
+	}
 	result, err := h.registerPointUseCase.RecordPointEvent(domain.RegisterPointDTO{UserID: userId})
 	if err != nil {
 		log.Println("ERRO: ", err)
@@ -55,6 +59,10 @@ func (h *HttpHandler) GetRegistersDay(w http.ResponseWriter, req bunrouter.Reque
 func (h *HttpHandler) GetMonthlyReport(w http.ResponseWriter, req bunrouter.Request) error {
 	log.Println("request get monthly report")
 	userId, err := h.authentication.ExtractUserIDFromToken(req.Header.Get("Authorization"))
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return nil
+	}
 	result, err := h.registerPointUseCase.GetMonthlyReport(userId)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
