@@ -7,6 +7,7 @@ require (
 	github.com/spf13/viper v1.18.2
 	github.com/uptrace/bunrouter v1.0.21
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.21
+	golang.org/x/crypto v0.16.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
 
