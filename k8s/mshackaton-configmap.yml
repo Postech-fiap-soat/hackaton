@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mshackaton-configmap
+data:
+  DB_HOST: soatdb
+  DB_PORT: '3306'
+  DB_USER: root
+  DB_PASSWORD: root
+  DB_NAME: electronic_point
+  SMTP_HOST: sandbox.smtp.mailtrap.io
+  SMTP_PORT: '465'
+  SMTP_USER: 160986abf98ac5
+  SMTP_PASSWORD: 652112cf4f42d9
+  ENVIRONMENT: PROD
+

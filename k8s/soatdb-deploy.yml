@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soatdb-deploy
+spec:
+  template:
+    metadata:
+      name: soatdb-deploy
+      labels:
+        app: soatdb-deploy
+    spec:
+      containers:
+        - name: soatdb-deploy
+          image: mysql:5.6
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: soatdb-configmap
+  selector:
+    matchLabels:
+      app: soatdb-deploy

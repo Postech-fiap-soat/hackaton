@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mshackaton-deploy
+spec:
+  template:
+    metadata:
+      name: mshackaton-deploy
+      labels:
+        app: mshackaton-deploy
+    spec:
+      containers:
+        - name: mshackaton
+          image: mateuspanda/mshackaton:3
+          ports:
+            - containerPort: 8001
+          envFrom:
+            - configMapRef:
+                name: mshackaton-configmap
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mshackaton-deploy

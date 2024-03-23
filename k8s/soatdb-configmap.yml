@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: soatdb-configmap
+data:
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_DATABASE: electronic_point
+  MYSQL_USER: soatuser
+  MYSQL_PASSWORD: soatpassword
